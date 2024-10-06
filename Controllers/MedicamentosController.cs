@@ -24,22 +24,21 @@ namespace ConsultorioMedico.Controllers
             return View(await _context.Medicamentos.ToListAsync());
         }
 
-        // GET: Medicamentos/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Medicamentos/BuscarMedicamento
+        public async Task<IActionResult> BuscarMedicamento()
         {
-            if (id == null)
+            var viewModel = new MedicamentoViewModel
             {
-                return NotFound();
-            }
+                Medicamentos = await _context.Medicamentos
+                    .Select(m => new SelectListItem
+                    {
+                        Value = m.ID.ToString(),
+                        Text = m.descricao // Supondo que 'Descricao' é uma propriedade do seu modelo Medicamento
+                    })
+                    .ToListAsync()
+            };
 
-            var medicamento = await _context.Medicamentos
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (medicamento == null)
-            {
-                return NotFound();
-            }
-
-            return View(medicamento);
+            return View(viewModel);
         }
 
         // GET: Medicamentos/Create
@@ -151,6 +150,25 @@ namespace ConsultorioMedico.Controllers
         private bool MedicamentoExists(int id)
         {
             return _context.Medicamentos.Any(e => e.ID == id);
+        }
+
+        [HttpPost]
+        public JsonResult BuscarDetalhes(int medicamentoID)
+        {
+            var medicamento = _context.Medicamentos.Find(medicamentoID);
+            if (medicamento == null)
+            {
+                return Json(null);
+            }
+
+            return Json(new
+            {
+                descricao = medicamento.descricao,
+                qtdeEstoque = medicamento.qtdeEstoque,
+                estoqueMin = medicamento.estoqueMin,
+                estoqueMax = medicamento.estoqueMax,
+                precoUnitario = medicamento.precoUnitario
+            });
         }
     }
 }
