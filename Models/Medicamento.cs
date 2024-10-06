@@ -23,7 +23,15 @@ namespace ConsultorioMedico.Models
         [Required(ErrorMessage = "Campo estoqueMin obrigatório")]
         [Display(Name = "Estoque Mínimo: ")]
         public int estoqueMin { get; set; }
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+        
+=======
+
+>>>>>>> c9aabf4304afcb610661bc4d2b966e7f0d5dd3a1
+>>>>>>> 8b21a4e8887dcae44056d802326bb924d238445e
         [Required(ErrorMessage = "Campo estoqueMax obrigatório")]
         [Display(Name = "Estoque Máximo: ")]
         public int estoqueMax { get; set; }
