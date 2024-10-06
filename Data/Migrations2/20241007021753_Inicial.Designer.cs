@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsultorioMedico.Data.Migrations2
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20241005184351_Especialidade1")]
-    partial class Especialidade1
+    [Migration("20241007021753_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,6 +113,47 @@ namespace ConsultorioMedico.Data.Migrations2
                     b.ToTable("Medicamentos");
                 });
 
+            modelBuilder.Entity("ConsultorioMedico.Models.Medico", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("UFID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("cidadeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("endereco")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<int>("especialidadeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("nome")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<string>("telefone")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("cidadeID");
+
+                    b.HasIndex("especialidadeID");
+
+                    b.ToTable("Medicos");
+                });
+
             modelBuilder.Entity("ConsultorioMedico.Models.Paciente", b =>
                 {
                     b.Property<int>("ID")
@@ -142,6 +183,25 @@ namespace ConsultorioMedico.Data.Migrations2
                     b.HasIndex("cidadeID");
 
                     b.ToTable("Pacientes");
+                });
+
+            modelBuilder.Entity("ConsultorioMedico.Models.Medico", b =>
+                {
+                    b.HasOne("ConsultorioMedico.Models.Cidade", "cidade")
+                        .WithMany()
+                        .HasForeignKey("cidadeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ConsultorioMedico.Models.Especialidade", "especialidade")
+                        .WithMany()
+                        .HasForeignKey("especialidadeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("cidade");
+
+                    b.Navigation("especialidade");
                 });
 
             modelBuilder.Entity("ConsultorioMedico.Models.Paciente", b =>

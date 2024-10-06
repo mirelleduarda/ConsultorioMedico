@@ -29,5 +29,6 @@ namespace ConsultorioMedico.Models
 
         [Display(Name = "UF: ")]
         public string UFID { get; set; }
+
     }
 }
