@@ -38,6 +38,13 @@ namespace ConsultorioMedico.Models
         [Display(Name = "Cidade: ")]
         public int cidadeID { get; set; }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+        //teste
+>>>>>>> 8b21a4e8887dcae44056d802326bb924d238445e
+>>>>>>> 0bb488ea33bffeeb5587ddc675325e24014f91b3
         [Display(Name = "UF: ")]
         public string UFID { get; set; }
     }
