@@ -1,0 +1,105 @@
+﻿@model ConsultorioMedico.Models.Consulta
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Consulta</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Selecionar Paciente -->
+            <div class="form-group">
+                <label asp-for="pacienteID" class="control-label"></label>
+                <select asp-for="pacienteID" class="form-control" asp-items="ViewBag.pacienteID" id="pacienteSelect"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="pacienteCidadeID" class="control-label"></label>
+                <input asp-for="pacienteCidadeID" class="form-control" id="pacienteCidade" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="pacienteUFID" class="control-label"></label>
+                <input asp-for="pacienteUFID" class="form-control" id="pacienteUF" readonly />
+            </div>
+
+            <!-- Selecionar Médico -->
+            <div class="form-group">
+                <label asp-for="medicoID" class="control-label"></label>
+                <select asp-for="medicoID" class="form-control" asp-items="ViewBag.medicoID" id="medicoSelect"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="medicoEspecialidadeID" class="control-label"></label>
+                <input asp-for="medicoEspecialidadeID" class="form-control" id="medicoEspecialidade" readonly />
+            </div>
+
+            <!-- Selecionar CID -->
+            <div class="form-group">
+                <label asp-for="cidID" class="control-label"></label>
+                <select asp-for="cidID" class="form-control" asp-items="ViewBag.cidID" id="cidID"></select>
+            </div>
+
+            <!-- Selecionar Medicamento -->
+            <div class="form-group">
+                <label asp-for="medicamentoID" class="control-label"></label>
+                <select asp-for="medicamentoID" class="form-control" asp-items="ViewBag.medicamentoID" id="medicamentoID"></select>
+            </div>
+
+            <!-- Verificar Quantidade do Medicamento -->
+            <div class="form-group">
+                <label asp-for="qtdeMedicamento" class="control-label"></label>
+                <input asp-for="qtdeMedicamento" class="form-control" id="qtdeMedicamento" />
+                <span asp-validation-for="qtdeMedicamento" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Preencher dados do paciente ao selecionar
+            $('#pacienteSelect').change(function () {
+                var pacienteId = $(this).val();
+
+                // Verifique se está retornando o ID corretamente
+                console.log("Paciente selecionado: " + pacienteId);
+
+                $.getJSON('/Consultas/GetPacienteDetails', { id: pacienteId }, function (data) {
+                    if (data) {
+                        console.log(data); // Verifique o formato do retorno no console
+                        $('#pacienteCidade').val(data.nome) // Espera-se que o backend retorne 'cidade'
+                        $('#pacienteUF').val(data.uf); // Espera-se que o backend retorne 'uf'
+                    } else {
+                        console.error("Erro ao buscar dados do paciente.");
+                    }
+                });
+            });
+
+            // Preencher especialidade do médico ao selecionar
+            $.getJSON('/Consultas/GetPacienteDetails', { id: pacienteId }, function (data) {
+                if (data) {
+                    $('#pacienteCidade').val(data.cidade); // Verifique se 'data.cidade' está correto
+                    $('#pacienteUF').val(data.uf); // Esse está funcionando corretamente
+                } else {
+                    console.error("Erro ao buscar dados do paciente.");
+                }
+            });
+        });
+    </script>
+}

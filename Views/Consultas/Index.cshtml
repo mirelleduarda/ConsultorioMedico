@@ -1,0 +1,78 @@
+﻿@model IEnumerable<ConsultorioMedico.Models.Consulta>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.paciente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pacienteCidadeID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pacienteUFID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.medico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.medicoEspecialidadeID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.medicamento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.qtdeMedicamento)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.paciente.endereco)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.pacienteCidadeID)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.pacienteUFID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.medico.endereco)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.medicoEspecialidadeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cid.descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.medicamento.descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.qtdeMedicamento)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
