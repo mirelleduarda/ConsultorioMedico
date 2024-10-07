@@ -22,7 +22,7 @@ namespace ConsultorioMedico.Models
         public Cidade cidade { get; set; }
 
         [Display(Name = "Cidade: ")]
-        public int pacienteCidadeID { get; set; }
+        public string pacienteCidadeID { get; set; }
 
         [Display(Name = "UF: ")]
         public string pacienteUFID { get; set; }
@@ -39,7 +39,7 @@ namespace ConsultorioMedico.Models
         public Especialidade especialidade { get; set; }
 
         [Display(Name = "Especialidade: ")]
-        public int medicoEspecialidadeID { get; set; }
+        public string medicoEspecialidadeID { get; set; }
 
 
 

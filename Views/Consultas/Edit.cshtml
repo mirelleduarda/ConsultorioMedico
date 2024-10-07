@@ -21,12 +21,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="pacienteCidadeID" class="control-label"></label>
-                <input asp-for="pacienteCidadeID" class="form-control" />
+                <input asp-for="pacienteCidadeID" class="form-control" readonly />
                 <span asp-validation-for="pacienteCidadeID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="pacienteUFID" class="control-label"></label>
-                <input asp-for="pacienteUFID" class="form-control" />
+                <input asp-for="pacienteUFID" class="form-control" readonly />
                 <span asp-validation-for="pacienteUFID" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="medicoEspecialidadeID" class="control-label"></label>
-                <input asp-for="medicoEspecialidadeID" class="form-control" />
+                <input asp-for="medicoEspecialidadeID" class="form-control" readonly />
                 <span asp-validation-for="medicoEspecialidadeID" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -66,5 +66,40 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Preencher dados do paciente ao selecionar
+            $('#pacienteID').change(function () {
+                var pacienteId = $(this).val();
+
+                // Verifique se está retornando o ID corretamente
+                console.log("Paciente selecionado: " + pacienteId);
+
+                $.getJSON('/Consultas/GetPacienteDetails', { id: pacienteId }, function (data) {
+                    if (data) {
+                        console.log(data); // Verifique o formato do retorno no console
+                        $('#pacienteCidadeID').val(data.nomeCidade) // Espera-se que o backend retorne 'cidade'
+                        $('#pacienteUFID').val(data.uf); // Espera-se que o backend retorne 'uf'
+                    } else {
+                        console.error("Erro ao buscar dados do paciente.");
+                    }
+                });
+            });
+
+            // Preencher especialidade do médico ao selecionar
+            $.getJSON('/Consultas/GetMedicoEspecialidade', { id: medicoId }, function (data) {
+                console.log(data); // Verifica o retorno completo da requisição
+
+                if (data.success) {
+                    $('#medicoEspecialidadeID').val(data.descricaoEspecialidade); // Preenche o campo com a especialidade
+                } else {
+                    console.error(data.message); // Mostra mensagem de erro no console
+                }
+            }).fail(function () {
+                console.error("Erro ao tentar buscar a especialidade do médico.");
+            });
+        });
+    </script>
 }

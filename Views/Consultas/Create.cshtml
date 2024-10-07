@@ -17,15 +17,15 @@
             <!-- Selecionar Paciente -->
             <div class="form-group">
                 <label asp-for="pacienteID" class="control-label"></label>
-                <select asp-for="pacienteID" class="form-control" asp-items="ViewBag.pacienteID" id="pacienteSelect"></select>
+                <select asp-for="pacienteID" class="form-control" asp-items="ViewBag.pacienteID" id="pacienteID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="pacienteCidadeID" class="control-label"></label>
-                <input asp-for="pacienteCidadeID" class="form-control" id="pacienteCidade" readonly />
+                <input asp-for="pacienteCidadeID" class="form-control" id="pacienteCidadeID" readonly/>
             </div>
             <div class="form-group">
                 <label asp-for="pacienteUFID" class="control-label"></label>
-                <input asp-for="pacienteUFID" class="form-control" id="pacienteUF" readonly />
+                <input asp-for="pacienteUFID" class="form-control" id="pacienteUFID" readonly/>
             </div>
 
             <!-- Selecionar Médico -->
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="medicoEspecialidadeID" class="control-label"></label>
-                <input asp-for="medicoEspecialidadeID" class="form-control" id="medicoEspecialidade" readonly />
+                <input asp-for="medicoEspecialidadeID" class="form-control" id="medicoEspecialidadeID" readonly/>
             </div>
 
             <!-- Selecionar CID -->
@@ -74,7 +74,7 @@
     <script>
         $(document).ready(function () {
             // Preencher dados do paciente ao selecionar
-            $('#pacienteSelect').change(function () {
+            $('#pacienteID').change(function () {
                 var pacienteId = $(this).val();
 
                 // Verifique se está retornando o ID corretamente
@@ -83,23 +83,26 @@
                 $.getJSON('/Consultas/GetPacienteDetails', { id: pacienteId }, function (data) {
                     if (data) {
                         console.log(data); // Verifique o formato do retorno no console
-                        $('#pacienteCidade').val(data.nome) // Espera-se que o backend retorne 'cidade'
-                        $('#pacienteUF').val(data.uf); // Espera-se que o backend retorne 'uf'
+                        $('#pacienteCidadeID').val(data.nomeCidade) // Espera-se que o backend retorne 'cidade'
+                        $('#pacienteUFID').val(data.uf); // Espera-se que o backend retorne 'uf'
                     } else {
                         console.error("Erro ao buscar dados do paciente.");
                     }
                 });
-            });
 
-            // Preencher especialidade do médico ao selecionar
-            $.getJSON('/Consultas/GetPacienteDetails', { id: pacienteId }, function (data) {
-                if (data) {
-                    $('#pacienteCidade').val(data.cidade); // Verifique se 'data.cidade' está correto
-                    $('#pacienteUF').val(data.uf); // Esse está funcionando corretamente
-                } else {
-                    console.error("Erro ao buscar dados do paciente.");
-                }
-            });
+                /// Preencher especialidade do médico ao selecionar
+                $.getJSON('/Consultas/GetMedicoEspecialidade', { id: medicoId }, function (data) {
+                    console.log(data); // Verifica o retorno completo da requisição
+
+                    if (data.success) {
+                        $('#medicoEspecialidadeID').val(data.descricaoEspecialidade); // Preenche o campo com a especialidade
+                    } else {
+                        console.error(data.message); // Mostra mensagem de erro no console
+                    }
+                }).fail(function () {
+                    console.error("Erro ao tentar buscar a especialidade do médico.");
+                });
+            });   
         });
     </script>
 }
