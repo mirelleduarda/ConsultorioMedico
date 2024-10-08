@@ -30,6 +30,9 @@ namespace ConsultorioMedico.Models
 
         [Required(ErrorMessage = "Campo precoUnitario obrigatório")]
         [Display(Name = "Preço Unitário: ")]
-        public float precoUnitario { get; set; }
+        public decimal? precoUnitario { get; set; }
+
+
+
     }
 }

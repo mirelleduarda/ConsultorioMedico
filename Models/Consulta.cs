@@ -43,10 +43,10 @@ namespace ConsultorioMedico.Models
 
 
 
-        [Display(Name = "Cid: ")]
+        [Display(Name = "CID: ")]
         public Cid cid { get; set; }
 
-        [Display(Name = "Cid: ")]
+        [Display(Name = "CID: ")]
         public int cidID { get; set; }
 
 
@@ -58,8 +58,12 @@ namespace ConsultorioMedico.Models
         public int medicamentoID { get; set; }
 
 
-
-        [Display(Name = "Quantidade Receitada: ")]
+        [Range(0, 1, ErrorMessage = "A quantidade de medicamentos deve ser entre 0 e 1.")]
+        [Display(Name = "Quantidade: ")]
         public int qtdeMedicamento { get; set; }
+
+
+        [Display(Name = "Valor: ")]
+        public decimal? valorConsulta { get; set; }
     }
 }

@@ -31,7 +31,7 @@
             <!-- Selecionar Médico -->
             <div class="form-group">
                 <label asp-for="medicoID" class="control-label"></label>
-                <select asp-for="medicoID" class="form-control" asp-items="ViewBag.medicoID" id="medicoSelect"></select>
+                <select asp-for="medicoID" class="form-control" asp-items="ViewBag.medicoID" id="medicoID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="medicoEspecialidadeID" class="control-label"></label>
@@ -53,8 +53,15 @@
             <!-- Verificar Quantidade do Medicamento -->
             <div class="form-group">
                 <label asp-for="qtdeMedicamento" class="control-label"></label>
-                <input asp-for="qtdeMedicamento" class="form-control" id="qtdeMedicamento" />
+                <input asp-for="qtdeMedicamento" class="form-control" id="qtdeMedicamento" min="1" max="1" step="1" />
                 <span asp-validation-for="qtdeMedicamento" class="text-danger"></span>
+            </div>
+
+            <!-- Verificar Valor da Consulta -->
+            <div class="form-group">
+                <label asp-for="valorConsulta" class="control-label"></label>
+                <input asp-for="valorConsulta" class="form-control" id="valorConsulta" />
+                <span asp-validation-for="valorConsulta" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -92,7 +99,8 @@
 
                 /// Preencher especialidade do médico ao selecionar
                 $.getJSON('/Consultas/GetMedicoEspecialidade', { id: medicoId }, function (data) {
-                    console.log(data); // Verifica o retorno completo da requisição
+                    var medicoId = $(this).val();
+                    console.log("Médico selecionado: " + medicoId);
 
                     if (data.success) {
                         $('#medicoEspecialidadeID').val(data.descricaoEspecialidade); // Preenche o campo com a especialidade
@@ -102,7 +110,7 @@
                 }).fail(function () {
                     console.error("Erro ao tentar buscar a especialidade do médico.");
                 });
-            });   
+            });
         });
     </script>
 }

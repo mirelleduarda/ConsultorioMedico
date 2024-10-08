@@ -28,6 +28,25 @@ namespace ConsultorioMedico.Controllers
                                    .Include(c => c.especialidade)
                                    .Include(c => c.cid)
                                    .Include(c => c.medicamento);
+            // Obtém a lista de consultas
+            var consultas = await contexto.ToListAsync();
+
+            // Inicializa a variável para o total
+            decimal totalConsultas = 0;
+
+            // Soma manualmente os valores de todas as consultas
+            foreach (var consulta in consultas)
+            {
+                // Verifica se ValorConsulta não é nulo
+                if (consulta.valorConsulta.HasValue) // ou if (consulta.valorConsulta != null)
+                {
+                    totalConsultas += consulta.valorConsulta.Value; // Usa .Value para acessar o valor
+                }
+            }
+
+            // Passa o total para a View via ViewBag
+            ViewBag.TotalConsultas = totalConsultas;
+
             return View(await contexto.ToListAsync());
         }
 
@@ -71,7 +90,7 @@ namespace ConsultorioMedico.Controllers
         // POST: Consultas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,pacienteID,pacienteCidadeID,pacienteUFID,medicoID,medicoEspecialidadeID,cidID,medicamentoID,qtdeMedicamento")] Consulta consulta)
+        public async Task<IActionResult> Create([Bind("ID,pacienteID,pacienteCidadeID,pacienteUFID,medicoID,medicoEspecialidadeID,cidID,medicamentoID,qtdeMedicamento, valorConsulta")] Consulta consulta)
         {
             var paciente = await _context.Pacientes.Include(p => p.cidade).FirstOrDefaultAsync(p => p.ID == consulta.pacienteID);
             var medicamento = await _context.Medicamentos.FindAsync(consulta.medicamentoID);
@@ -149,7 +168,7 @@ namespace ConsultorioMedico.Controllers
         // POST: Consultas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,pacienteID,pacienteCidadeID,pacienteUFID,medicoID,medicoEspecialidadeID,cidID,medicamentoID,qtdeMedicamento")] Consulta consulta)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,pacienteID,pacienteCidadeID,pacienteUFID,medicoID,medicoEspecialidadeID,cidID,medicamentoID,qtdeMedicamento,valorConsulta")] Consulta consulta)
         {
             if (id != consulta.ID)
             {
@@ -180,7 +199,6 @@ namespace ConsultorioMedico.Controllers
             {
                 try
                 {
-                    medicamento.qtdeEstoque -= consulta.qtdeMedicamento;
                     _context.Update(consulta);
                     _context.Update(medicamento);
                     await _context.SaveChangesAsync();
@@ -268,17 +286,9 @@ namespace ConsultorioMedico.Controllers
                                  .Where(m => m.ID == id)
                                  .Select(m => new{
                                      descricaoEspecialidade = m.especialidade.descricao
-                                 })
-                                 .FirstOrDefault();
+                                 }).FirstOrDefault();
 
-            if (medico == null)
-            {
-                return Json(new { success = false, message = "Médico não encontrado" });
-            }
-
-            Console.WriteLine("Especialidade encontrada: " + medico.descricaoEspecialidade); // Log para verificar se os dados estão corretos
-
-            return Json(new { success = true, especialidade = medico.descricaoEspecialidade });
+            return Json(medico);
         }
 
         private bool ConsultaExists(int id)

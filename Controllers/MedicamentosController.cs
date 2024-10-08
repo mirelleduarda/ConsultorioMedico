@@ -16,12 +16,34 @@ namespace ConsultorioMedico.Controllers
         public MedicamentosController(Contexto context)
         {
             _context = context;
+
         }
 
         // GET: Medicamentos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Medicamentos.ToListAsync());
+            var contexto = _context.Medicamentos;
+
+            // Obtém a lista de medicamentos
+            var medicamentos = await contexto.ToListAsync();
+
+            // Inicializa a variável para o total
+            decimal valorTotal = 0;
+
+            // Soma manualmente os valores de todas as consultas
+            foreach (var medicamento in medicamentos)
+            {
+                // Verifica se ValorConsulta não é nulo
+                if (medicamento.precoUnitario.HasValue) // ou if (consulta.valorConsulta != null)
+                {
+                    valorTotal += medicamento.precoUnitario.Value; // Usa .Value para acessar o valor
+                }
+            }
+
+            // Passa o total para a View via ViewBag
+            ViewBag.valorTotal = valorTotal;
+
+            return View(await contexto.ToListAsync());
         }
 
         // GET: Medicamentos/BuscarMedicamento

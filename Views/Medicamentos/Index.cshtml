@@ -27,8 +27,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.precoUnitario)
             </th>
-            <th></th>
         </tr>
+        <div class="alert alert-info">
+            <strong>Total Estoque: R$ </strong> @ViewBag.valorTotal.ToString("C")
+        </div>
     </thead>
     <tbody>
 @foreach (var item in Model) {

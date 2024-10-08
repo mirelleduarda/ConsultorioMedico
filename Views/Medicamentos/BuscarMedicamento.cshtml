@@ -11,6 +11,15 @@
     <!-- Os detalhes do medicamento aparecerão aqui -->
 </div>
 
+<div style="background-color:lightblue">
+    <div id="quantidadeCompra" style="margin-top: 20px; display: none; font-weight: bold; />
+		<label for="qtdeCompra">Quantidade a ser comprada:</label>
+    <input type="number" id="qtdeCompra" min="0" style="width: 70px;/>
+		<p id="valorTotal"></p>
+	</div>
+</div>
+
+
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
@@ -33,8 +42,28 @@
                                     '<p><strong>Estoque Máximo:</strong> ' + data.estoqueMax + '</p>' +
                                     '<p><strong>Preço Unitário:</strong> ' + data.precoUnitario + '</p>'
                                 );
+
+                                // Calcular quantidade a ser comprada
+                                var quantidadeEmEstoque = data.qtdeEstoque;
+                                var estoqueMaximo = data.estoqueMax;
+                                var qtdeAComprar = estoqueMaximo - quantidadeEmEstoque;
+
+                                $('#quantidadeCompra').show(); // Exibe o campo de quantidade
+                                $('#qtdeCompra').val(qtdeAComprar); // Define a quantidade a ser comprada
+
+                                // Atualiza o valor total ao inserir a quantidade
+                                $('#qtdeCompra').on('input', function () {
+                                    var quantidade = parseInt($(this).val()) || 0;
+                                    var precoUnitario = parseFloat(data.precoUnitario);
+                                    var valorTotal = quantidade * precoUnitario;
+                                    $('#valorTotal').text('Valor Total a ser comprado: R$ ' + valorTotal.toFixed(2));
+                                });
+
+                                // Inicializa o valor total
+                                $('#valorTotal').text('Valor Total a ser comprado: R$ ' + (qtdeAComprar * parseFloat(data.precoUnitario)).toFixed(2));
                             } else {
                                 $('#detalhesMedicamento').html('<p>Nenhum detalhe encontrado.</p>');
+                                $('#quantidadeCompra').hide(); // Esconde o campo de quantidade se não encontrar detalhes
                             }
                         }
                     });
