@@ -59,7 +59,7 @@ namespace ConsultorioMedico.Models
 
 
         [Range(0, 1, ErrorMessage = "A quantidade de medicamentos deve ser entre 0 e 1.")]
-        [Display(Name = "Quantidade: ")]
+        [Display(Name = "Qtde: ")]
         public int qtdeMedicamento { get; set; }
 
 

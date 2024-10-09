@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Agendar Consulta</h1>
 
-<h4>Consulta</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -21,11 +21,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="pacienteCidadeID" class="control-label"></label>
-                <input asp-for="pacienteCidadeID" class="form-control" id="pacienteCidadeID" readonly/>
+                <input asp-for="pacienteCidadeID" class="form-control" id="pacienteCidadeID" readonly />
             </div>
             <div class="form-group">
                 <label asp-for="pacienteUFID" class="control-label"></label>
-                <input asp-for="pacienteUFID" class="form-control" id="pacienteUFID" readonly/>
+                <input asp-for="pacienteUFID" class="form-control" id="pacienteUFID" readonly />
             </div>
 
             <!-- Selecionar Médico -->
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="medicoEspecialidadeID" class="control-label"></label>
-                <input asp-for="medicoEspecialidadeID" class="form-control" id="medicoEspecialidadeID" readonly/>
+                <input asp-for="medicoEspecialidadeID" class="form-control" id="medicoEspecialidadeID" readonly />
             </div>
 
             <!-- Selecionar CID -->
@@ -65,7 +65,8 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-primary">Voltar</a>
             </div>
         </form>
     </div>

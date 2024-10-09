@@ -4,9 +4,8 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Cadastrar Medicamento</h1>
 
-<h4>Medicamento</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,17 +18,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="qtdeEstoque" class="control-label"></label>
-                <input asp-for="qtdeEstoque" class="form-control" />
+                <input asp-for="qtdeEstoque" class="form-control" min="0" max="100" step="1" />
                 <span asp-validation-for="qtdeEstoque" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="estoqueMin" class="control-label"></label>
-                <input asp-for="estoqueMin" class="form-control" />
+                <input asp-for="estoqueMin" class="form-control" min="0" max="100" step="1" />
                 <span asp-validation-for="estoqueMin" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="estoqueMax" class="control-label"></label>
-                <input asp-for="estoqueMax" class="form-control" />
+                <input asp-for="estoqueMax" class="form-control" min="0" max="100" step="1" />
                 <span asp-validation-for="estoqueMax" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -38,16 +37,16 @@
                 <span asp-validation-for="precoUnitario" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-primary">Voltar</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

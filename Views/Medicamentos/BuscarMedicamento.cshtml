@@ -12,9 +12,9 @@
 </div>
 
 <div style="background-color:lightblue">
-    <div id="quantidadeCompra" style="margin-top: 20px; display: none; font-weight: bold; />
+	<div id="quantidadeCompra" style="margin-top: 20px; display: none; font-weight: bold;" >
 		<label for="qtdeCompra">Quantidade a ser comprada:</label>
-    <input type="number" id="qtdeCompra" min="0" style="width: 70px;/>
+		<input type="number" id="qtdeCompra" min="0" style="width: 70px;" />
 		<p id="valorTotal"></p>
 	</div>
 </div>
@@ -56,11 +56,11 @@
                                     var quantidade = parseInt($(this).val()) || 0;
                                     var precoUnitario = parseFloat(data.precoUnitario);
                                     var valorTotal = quantidade * precoUnitario;
-                                    $('#valorTotal').text('Valor Total a ser comprado: R$ ' + valorTotal.toFixed(2));
+                                    $('#valorTotal').html('<strong>Valor Total a ser comprado: </strong><span style="color: green;">R$ ' + valorTotal.toFixed(2) + '</span>');
                                 });
 
                                 // Inicializa o valor total
-                                $('#valorTotal').text('Valor Total a ser comprado: R$ ' + (qtdeAComprar * parseFloat(data.precoUnitario)).toFixed(2));
+                                $('#valorTotal').html('<strong>Valor Total a ser comprado: </strong><span style="color: green;">R$ ' + (qtdeAComprar * parseFloat(data.precoUnitario)).toFixed(2) + '</span>');
                             } else {
                                 $('#detalhesMedicamento').html('<p>Nenhum detalhe encontrado.</p>');
                                 $('#quantidadeCompra').hide(); // Esconde o campo de quantidade se não encontrar detalhes

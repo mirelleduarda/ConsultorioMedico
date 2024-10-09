@@ -4,12 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 style="background-color: #da7ae3; height: 3.6rem;">
+    Medicamentos Cadastrados
+</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+
+<table class="table table-striped" style="background-color: #fbd5ff;">
     <thead>
         <tr>
             <th>
@@ -27,35 +27,44 @@
             <th>
                 @Html.DisplayNameFor(model => model.precoUnitario)
             </th>
+            <th style="text-align: end;">
+                <button type="button" class="btn" style="background-color: #061728; color: white" onclick="window.location.href='@Url.Action("Create")'">Cadastrar Novo Medicamento</button>
+            </th>
         </tr>
-        <div class="alert alert-info">
-            <strong>Total Estoque: R$ </strong> @ViewBag.valorTotal.ToString("C")
-        </div>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.qtdeEstoque)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.estoqueMin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.estoqueMax)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.precoUnitario)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.qtdeEstoque)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.estoqueMin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.estoqueMax)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.precoUnitario)
+                </td>
+                <td style="text-align: right;">
+                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-outline-warning">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-outline-primary">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-outline-danger">Excluir</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<div class="alert alert-info" style="background-color: #e6ffe9; color: #025a09; border-color: #004e06;">
+    <strong style="color: black;">Total Estoque: </strong>
+    <strong style="color: #025a09;">
+        <span style="font-weight: bold; color: #004e06;">R$</span>
+        <span style="font-weight: bold; color: #025a09;">@ViewBag.valorTotal.ToString("N2")</span>
+    </strong>
+</div>

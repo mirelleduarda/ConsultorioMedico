@@ -4,12 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 style="background-color: #ff37378f; height: 3.6rem;">
+    Pacientes Cadastrados
+</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+
+<table class="table table-striped" style="background-color: #ffb1b18f;">
     <thead>
         <tr>
             <th>
@@ -24,30 +24,33 @@
             <th>
                 @Html.DisplayNameFor(model => model.UFID)
             </th>
-            <th></th>
+            <th style="text-align: end;">
+                <button type="button" class="btn" style="background-color: #061728; color: white" onclick="window.location.href='@Url.Action("Create")'">Cadastrar Novo Paciente</button>
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.endereco)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.cidade.nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UFID)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.endereco)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cidade.nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UFID)
+                </td>
+                <td style="text-align: right;">
+                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-outline-warning">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-outline-primary">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-outline-danger">Excluir</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

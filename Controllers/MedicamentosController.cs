@@ -136,6 +136,24 @@ namespace ConsultorioMedico.Controllers
             return View(medicamento);
         }
 
+        // GET: Medicamentos/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var medicamento = await _context.Medicamentos
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (medicamento == null)
+            {
+                return NotFound();
+            }
+
+            return View(medicamento);
+        }
+
         // GET: Medicamentos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
