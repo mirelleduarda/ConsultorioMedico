@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ConsultorioMedico.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ConsultorioMedico.Controllers
 {
+    [Authorize]
     public class MedicamentosController : Controller
     {
         private readonly Contexto _context;
@@ -20,6 +22,7 @@ namespace ConsultorioMedico.Controllers
         }
 
         // GET: Medicamentos
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var contexto = _context.Medicamentos;
@@ -209,6 +212,35 @@ namespace ConsultorioMedico.Controllers
                 estoqueMax = medicamento.estoqueMax,
                 precoUnitario = medicamento.precoUnitario
             });
+        }
+
+        [HttpPost]
+        public JsonResult AtualizarEstoque(int medicamentoID, int qtdeCompra)
+        {
+            var medicamento = _context.Medicamentos.Find(medicamentoID);
+            if (medicamento == null)
+            {
+                return Json(new { success = false, message = "Medicamento não encontrado." });
+            }
+
+            // Atualiza o estoque com a quantidade comprada
+            if (medicamento.qtdeEstoque < medicamento.estoqueMax)
+            {
+                medicamento.qtdeEstoque += qtdeCompra;
+            } else
+            {
+                return Json(new { success = false, message = "O estoque máximo já foi atingido." });
+            }
+
+            try
+            {
+                _context.SaveChanges(); // Salva as mudanças no banco de dados
+                return Json(new { success = true, message = "Estoque atualizado com sucesso.", novoEstoque = medicamento.qtdeEstoque });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Erro ao atualizar o estoque: " + ex.Message });
+            }
         }
     }
 }

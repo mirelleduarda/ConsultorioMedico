@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ConsultorioMedico.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ConsultorioMedico.Controllers
 {
+    [Authorize] // Exige autenticação para todas as ações
     public class CidadesController : Controller
     {
         private readonly Contexto _context;
@@ -19,6 +21,7 @@ namespace ConsultorioMedico.Controllers
         }
 
         // GET: Cidades
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Cidades.ToListAsync());

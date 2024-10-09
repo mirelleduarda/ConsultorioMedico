@@ -1,23 +1,59 @@
 ﻿@model ConsultorioMedico.Models.MedicamentoViewModel
 
-<div class="form-group">
-    <label for="medicamentoID">Selecione o Medicamento</label>
-    @Html.DropDownListFor(m => m.Medicamentos, new SelectList(Model.Medicamentos, "Value", "Text"), "Selecione um medicamento", new { @id = "medicamentoSelect", @class = "form-control" })
+<div class="meucontainer">
+    <h1>Buscar Medicamento</h1>
+    <p>Bem-vindo ao sistema de busca de medicamentos. Aqui você poderá selecionar um medicamento e verificar todos os detalhes importantes, como quantidade em estoque e estoque máximo. O sistema também calculará automaticamente a quantidade faltante para atingir o estoque máximo, além de exibir o valor total para a compra necessária.</p>
+
+    <div class="form-group">
+        <label for="medicamentoID">Selecione o Medicamento</label>
+        @Html.DropDownListFor(m => m.Medicamentos, new SelectList(Model.Medicamentos, "Value", "Text"), "Selecione um medicamento", new { @id = "medicamentoSelect", @class = "form-control" })
+    </div>
+
+    <button id="buscarDetalhes" class="btn btn-primary">Buscar Detalhes</button>
+
+    <div id="detalhesMedicamento" style="margin-top: 20px;">
+        <!-- Os detalhes do medicamento aparecerão aqui -->
+    </div>
+
+    <div style="background-color: #e5e1ff;border: 3px solid;border-radius: 12px;padding: 6px;border-color: #1f243c;" id="minhadiv">
+	    <div id="quantidadeCompra" style="display: none; font-weight: bold;" >
+		    <label for="qtdeCompra">Quantidade a ser comprada:</label>
+		    <input type="number" id="qtdeCompra" min="0" style="width: 70px;" />
+		    <p id="valorTotal"></p>
+            <button id="comprarBtn" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 10px;">
+                Comprar
+            </button>
+	    </div>
+    </div>
 </div>
 
-<button id="buscarDetalhes" class="btn btn-primary">Buscar Detalhes</button>
+<style>
+    .meucontainer {
+        max-width: 800px; /* Largura máxima do container */
+        margin: 0 auto; /* Centraliza o container */
+        background-color: white; /* Cor de fundo do container */
+        padding: 20px; /* Espaçamento interno */
+        border-radius: 8px; /* Cantos arredondados */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra do container */
+    }
 
-<div id="detalhesMedicamento" style="margin-top: 20px;">
-    <!-- Os detalhes do medicamento aparecerão aqui -->
-</div>
+    h1 {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
 
-<div style="background-color:lightblue">
-	<div id="quantidadeCompra" style="margin-top: 20px; display: none; font-weight: bold;" >
-		<label for="qtdeCompra">Quantidade a ser comprada:</label>
-		<input type="number" id="qtdeCompra" min="0" style="width: 70px;" />
-		<p id="valorTotal"></p>
-	</div>
-</div>
+    p {
+        font-size: 1.1rem;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+</style>
 
 
 @section Scripts {
@@ -64,6 +100,7 @@
                             } else {
                                 $('#detalhesMedicamento').html('<p>Nenhum detalhe encontrado.</p>');
                                 $('#quantidadeCompra').hide(); // Esconde o campo de quantidade se não encontrar detalhes
+                                $('#minhadiv').hide(); // Esconde o campo de quantidade se não encontrar detalhes
                             }
                         }
                     });
@@ -71,6 +108,45 @@
                     alert('Por favor, selecione um medicamento.');
                 }
             });
+
+            $(document).ready(function () {
+                $('#comprarBtn').click(function (e) {
+                    e.preventDefault();
+
+                    var medicamentoId = $('#medicamentoSelect').val(); // Obtém o ID do medicamento selecionado
+                    var qtdeCompra = parseInt($('#qtdeCompra').val()); // Obtém a quantidade a ser comprada
+
+                    if (medicamentoId && qtdeCompra > 0) {
+                        $.ajax({
+                            url: '@Url.Action("AtualizarEstoque", "Medicamentos")',
+                            type: 'POST',
+                            data: { medicamentoID: medicamentoId, qtdeCompra: qtdeCompra },
+                            success: function (data) {
+                                if (data.success) {
+                                    alert(data.message);
+                                } else {
+                                    alert(data.message);
+                                }
+                            },
+                            error: function () {
+                                alert('Erro ao atualizar o estoque.');
+                            }
+                        });
+                    } else {
+                        alert('Por favor, selecione um medicamento e insira uma quantidade válida.');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.getElementById('comprarBtn').addEventListener('mouseover', function () {
+            this.style.backgroundColor = '#218838';  // Cor ao passar o mouse
+        });
+
+        document.getElementById('comprarBtn').addEventListener('mouseout', function () {
+            this.style.backgroundColor = '#28a745';  // Cor normal
         });
     </script>
 }

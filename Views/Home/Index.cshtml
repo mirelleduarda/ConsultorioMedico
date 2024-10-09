@@ -1,8 +1,36 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿
+<h1>@ViewData["Title"]</h1>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="meucontainer">
+    <div class="sidebar">
+        <h1>Bem-vindo ao Sistema de Consultório Médico</h1>
+        <p>Estamos felizes em tê-lo(a) conosco!</p>
+        <p>Aqui você poderá gerenciar suas consultas, médicos e pacientes de forma simples e eficiente. Nosso sistema foi desenvolvido para oferecer a melhor experiência e facilitar o trabalho em seu consultório médico.</p>
+        <p>Navegue pelos menus para explorar os recursos disponíveis e aproveite as funcionalidades que preparamos para você.</p>
+        <p>Caso precise de ajuda, estou pronta para oferecer suporte.</p>
+    </div>
 </div>
+
+<style>
+    .meucontainer {
+        max-width: 800px; /* Largura máxima do container */
+        margin: 0 auto; /* Centraliza o container */
+        background-color: white; /* Cor de fundo do container */
+        padding: 20px; /* Espaçamento interno */
+        border-radius: 8px; /* Cantos arredondados */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra do container */
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 1.1rem;
+        color: #666;
+        line-height: 1.6;
+    }
+</style>
+

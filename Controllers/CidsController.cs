@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ConsultorioMedico.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ConsultorioMedico.Controllers
 {
+    [Authorize]
     public class CidsController : Controller
     {
         private readonly Contexto _context;
@@ -19,6 +21,7 @@ namespace ConsultorioMedico.Controllers
         }
 
         // GET: Cids
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Cids.ToListAsync());

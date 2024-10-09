@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ConsultorioMedico.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ConsultorioMedico.Controllers
 {
+    [Authorize]
     public class PacientesController : Controller
     {
         private readonly Contexto _context;
@@ -19,6 +21,7 @@ namespace ConsultorioMedico.Controllers
         }
 
         // GET: Pacientes
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var contexto = _context.Pacientes.Include(p => p.cidade);
